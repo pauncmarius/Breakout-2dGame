@@ -1,29 +1,26 @@
+#surfaceMaker.py
 import pygame
 from settings import *
 from os import walk
 
 class SurfaceMaker:
     def __init__(self):
-        # Iterate over the directory structure using os.walk
-        for index, info in enumerate(walk('../licenta2/graphics/blocks')):
-            # Check if it's the first iteration
+
+        for index, info in enumerate(walk('graphics/blocks')):
+
             if index == 0:
-                # Initialize a dictionary to store assets for each color
+
                 self.assets = {color: {} for color in info[1]}
             else:
-                # For subsequent iterations, load images into the assets dictionary
+
                 for image_name in info[2]:
-                    # Get the color type based on the current index
+
                     color_type = list(self.assets.keys())[index - 1]
+
+                    full_path = 'graphics/blocks' + f'/{color_type}/' + image_name
                     
-                    # Construct the full path for the image
-                    full_path = '../licenta2/graphics/blocks' + f'/{color_type}/' + image_name
-                    
-                    # Load the image using Pygame and convert it to an alpha surface
                     surf = pygame.image.load(full_path).convert_alpha()
-                    
-                    # Add the loaded image to the assets dictionary
-                    # Use the image name (without the extension) as the key
+
                     self.assets[color_type][image_name.split('.')[0]] = surf
 
 

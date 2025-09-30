@@ -1,3 +1,4 @@
+#sprites.py
 import pygame
 from settings import *
 from random import choice, randint
@@ -6,7 +7,7 @@ class Upgrade(pygame.sprite.Sprite):
     def __init__(self, pos, type, groups, game):
         super().__init__(groups)
         self.type = type
-        self.image = pygame.image.load(f'../licenta2/graphics/upgrades/{type}.png').convert_alpha()
+        self.image = pygame.image.load(f'graphics/upgrades/{type}.png').convert_alpha()
         self.rect =self.image.get_rect(midtop = pos)
 
         self.pos = pygame.math.Vector2(self.rect.topleft)
@@ -97,7 +98,7 @@ class Ball(pygame.sprite.Sprite):
         self.game = game
 
         #graphics setup
-        original_image = pygame.image.load('../licenta2/graphics/res/ball.png').convert_alpha()
+        original_image = pygame.image.load('graphics/res/ball.png').convert_alpha()
         scaled_width = int(original_image.get_width() * 0.7)
         scaled_height = int(original_image.get_height() * 0.7)
         self.image = pygame.transform.scale(original_image, (scaled_width, scaled_height))
@@ -115,10 +116,10 @@ class Ball(pygame.sprite.Sprite):
         self.active = False
 
         #sounds
-        self.impact_sound = pygame.mixer.Sound('../licenta2/sounds/impact.wav')
+        self.impact_sound = pygame.mixer.Sound('sounds/impact.wav')
         self.impact_sound.set_volume(0.1)
 
-        self.fail_sound = pygame.mixer.Sound('../licenta2/sounds/fail.wav')
+        self.fail_sound = pygame.mixer.Sound('sounds/fail.wav')
         self.fail_sound.set_volume(0.1)
 
     def window_collision(self, direction):
@@ -239,7 +240,7 @@ class Block(pygame.sprite.Sprite):
 
 class TVstyle:
     def __init__(self):
-        vignette = pygame.image.load('../licenta2/graphics/res/tv.png').convert_alpha()
+        vignette = pygame.image.load('graphics/res/tv.png').convert_alpha()
         self.scaled_vignette = pygame.transform.scale(vignette,(windowW, windowH))
         self.display_surface = pygame.display.get_surface()
         self.create_tv_lines()

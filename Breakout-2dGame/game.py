@@ -1,3 +1,4 @@
+#game.py
 import pygame, sys, time
 from settings import *
 from sprites import Bar, Ball, Block, Upgrade, TVstyle 
@@ -6,32 +7,37 @@ from random import choice, randint
 
 class Game:
     def __init__(self):
+
         #general setup
         pygame.init()
         self.displaySurface = pygame.display.set_mode((windowW, windowH))
         pygame.display.set_caption('Testing')
+
         #background 
         self.backgroundImage = self.create_background()
         self.MainImage = self.create_background2()
         self.play_text, self.more_text, self.quit_text = self.create_buttons()
+
         #sprite group setup
         self.all_sprites = pygame.sprite.Group()
         self.block_sprites = pygame.sprite.Group()
         self.upgrade_sprites = pygame.sprite.Group()
+
         #setup
         self.surfacemaker = SurfaceMaker()
         self.bar = Bar(self.all_sprites, self.surfacemaker, self)
         self.stage_setup()
         self.ball = Ball(self.all_sprites, self.bar, self.block_sprites, self)
+
         #crt
         self.crt = TVstyle()
         
         self.state = 'intro'
 
-        self.powerup_sound = pygame.mixer.Sound('../licenta2/sounds/powerup.wav')
+        self.powerup_sound = pygame.mixer.Sound('sounds/powerup.wav')
         self.powerup_sound.set_volume(0.1)
 
-        self.music = pygame.mixer.Sound('../licenta2/sounds/music.wav')
+        self.music = pygame.mixer.Sound('sounds/music.wav')
         self.music.set_volume(1)
         self.music.play(loops =-1)
 
@@ -46,22 +52,22 @@ class Game:
         Upgrade(pos, upgrade_type, [self.all_sprites, self.upgrade_sprites], self)
 
     def create_background(self):
-        backgroundImg = pygame.image.load('../licenta2/graphics/res/bg.png').convert()
+        backgroundImg = pygame.image.load('graphics/res/bg.png').convert()
         scaledBg = pygame.transform.scale(backgroundImg,(windowW, windowH))
         return scaledBg
     
     def create_background2(self):
-        backgroundImg = pygame.image.load('../licenta2/graphics/res/bgMain.png').convert()
+        backgroundImg = pygame.image.load('graphics/res/bgMain.png').convert()
         scaledBg = pygame.transform.scale(backgroundImg,(windowW, windowH))
         return scaledBg
     
     def create_buttons(self):
-        self.play_text = pygame.image.load('../licenta2/graphics/buttons/play.png').convert()
-        self.play2_text = pygame.image.load('../licenta2/graphics/buttons/play2.png').convert()
-        self.more_text = pygame.image.load('../licenta2/graphics/buttons/more.png').convert()
-        self.more2_text = pygame.image.load('../licenta2/graphics/buttons/more2.png').convert()
-        self.quit_text = pygame.image.load('../licenta2/graphics/buttons/quit.png').convert()
-        self.quit2_text = pygame.image.load('../licenta2/graphics/buttons/quit2.png').convert()
+        self.play_text = pygame.image.load('graphics/buttons/play.png').convert()
+        self.play2_text = pygame.image.load('graphics/buttons/play2.png').convert()
+        self.more_text = pygame.image.load('graphics/buttons/more.png').convert()
+        self.more2_text = pygame.image.load('graphics/buttons/more2.png').convert()
+        self.quit_text = pygame.image.load('graphics/buttons/quit.png').convert()
+        self.quit2_text = pygame.image.load('graphics/buttons/quit2.png').convert()
     
         return self.play_text, self.more_text, self.quit_text
 
@@ -147,26 +153,24 @@ class Game:
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 play_rect = self.play_text.get_rect(center=(windowW // 2, windowH // 4))
-                # Check if the mouse click is within the boundaries of the play button
+
                 if play_rect.collidepoint(mouse_x, mouse_y):
                     self.state = 'game'
                 quit_rect = self.quit_text.get_rect(center=(windowW // 2, windowH // 1.3))
-                # Check if the mouse click is within the boundaries of the play button
+
                 if quit_rect.collidepoint(mouse_x, mouse_y):
                     pygame.quit()
                     sys.exit()
 
-        # Drawing
-        # Draw frame
         self.displaySurface.blit(self.MainImage, (0, 0))
 
-        # Check if the mouse is over the play button
+
         play_rect = self.play_text.get_rect(center=(windowW // 2, windowH // 4))
         if play_rect.collidepoint(mouse_x, mouse_y):
-            # If the mouse is over the play button, draw a different image
+
             self.displaySurface.blit(self.play2_text, play_rect)
         else:
-            # If the mouse is not over the play button, draw the regular play button image
+
             self.displaySurface.blit(self.play_text, play_rect)
         more_rect = self.more_text.get_rect(center=(windowW // 2, windowH // 2))
         if more_rect.collidepoint(mouse_x, mouse_y):

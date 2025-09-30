@@ -1,3 +1,4 @@
+#settings.py
 windowW = 1000
 windowH = 700
 
